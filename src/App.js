@@ -7,52 +7,60 @@ const App = () => {
   const [surname, setSurname] = useState("");
   const [age, setAge] = useState("");
   const [users, setUsers] = useState([]);
-  const [errorName, setErrorName] = useState(false);
-  const [errorSurname, setErrorSurname] = useState(false);
-  const [errorAge, setErrorAge] = useState(false);
+  const [errorName, setErrorName] = useState("");
+  const [errorSurname, setErrorSurname] = useState("");
+  const [errorAge, setErrorAge] = useState("");
 
+
+  let count = 0;
   const handleChangeName = (e) => {
     setName(e.target.value);
+    if(name.length<3){
+      setErrorName("Name must be more than 3")
+      count++
+    }else{
+      setErrorName("")
+    }
+    
   };
 
 
   const handleChangeSurname = (e) => {
     setSurname(e.target.value);
+     if(surname.length<5){
+      setErrorSurname("Surname must be more than 5")
+      count++
+
+    }else{
+      setErrorSurname("")
+
+    }
+    
   };
 
   const handleChangeAge = (e) => {
     setAge(e.target.value);
+    if(age.value>18 && age.value<80){
+      setErrorAge("")
+      
+
+    }else{
+      setErrorAge("Age is lower 18 or higher 80")
+      count++
+    }
+    
   };
-  let count = 0;
+  
+
   const onSave = () => {
     const newUser = {
       name,
       surname,
       age,
     };
-    if(name.length<=3){
-      setErrorName(true)
-      count++
-    }else{
-      setErrorName(false)
-
-    }
-    if(surname.length<=5){
-      setErrorSurname(true)
-      count++
-
-    }else{
-      setErrorSurname(false)
-
-    }
-    if(age<18 || age>80){
-      setErrorAge(true)
-      count++
-
-    }else{
-      setErrorAge(false)
-
-    }
+    
+   
+    
     if(count===0){
       setUsers([...users, newUser]);
     }
@@ -70,23 +78,21 @@ const App = () => {
         value={name}
         onChange={handleChangeName}
       /><br></br>
-      {errorName?
-      <label style={{color:"red"}}>Name must be more then 3</label>:""}<br></br>
+      
+      <label style={{color:"red"}}>{errorName}</label><br></br>
       <input
         style={{ marginRight: 4,width:"250px" }}
         value={surname}
         onChange={handleChangeSurname}
       /><br></br>
-      {errorSurname?
-      <label style={{color:"red"}}>Surname must be more then 5</label>:""}<br></br>
+      <label style={{color:"red"}}>{errorSurname}</label><br></br>
 
       <input
         style={{ marginRight: 4,width:"250px" }}
         value={age}
         onChange={handleChangeAge}
       /><br></br>
-      {errorAge?
-      <label style={{color:"red"}}>Age must be more then 3</label>:""}<br></br>
+      <label style={{color:"red"}}>{errorAge}</label><br></br>
 
 
       <button onClick={onSave}>Save</button>
